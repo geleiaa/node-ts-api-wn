@@ -1,81 +1,92 @@
-import { StormGlass } from "@src/clients/stormGlass";
-import axios from 'axios';
+import { StormGlass } from '@src/clients/stormGlass';
+import * as HTTPUTIL from '@src/utils/requests';
 import stormGlassRespExample from '@test/fixtures/stormglass_resp_example.json';
 import stormGlassRespNornalizedExample from '@test/fixtures/stormglass_normalized_example.json';
 
-jest.mock('axios');
+jest.mock('@src/utils/requests');
 
 describe('StormGlass client', () => {
-    const mockedAxios = axios as jest.Mocked<typeof axios>;
-    it('return dados normalizados da Api StormGlass', async () => {
-        const lat = -33.792726;
-        const lng = 151.289824;
 
-        mockedAxios.get.mockResolvedValue({ data: stormGlassRespExample });
+  const MockedRequestClass = HTTPUTIL.Request as jest.Mocked<typeof HTTPUTIL.Request>;
+  //const mockedAxios = axios as jest.Mocked<typeof axios>;
+  const mockedRequest = new HTTPUTIL.Request() as jest.Mocked<HTTPUTIL.Request>;
 
-        const stormGlass = new StormGlass(mockedAxios);
-        const resp = await stormGlass.fetchPoint(lat, lng);
+  it('return dados normalizados da Api StormGlass', async () => {
+    const lat = -33.792726;
+    const lng = 151.289824;
 
-        expect(resp).toEqual(stormGlassRespNornalizedExample);
-    })
+    mockedRequest.get.mockResolvedValue({ data: stormGlassRespExample } as HTTPUTIL.Response);
 
-    it('deve excluir dados incompletos vindo da api', async () => {
-        const lat = -33.792726;
-        const lng = 151.289824;
+    const stormGlass = new StormGlass(mockedRequest);
+    const resp = await stormGlass.fetchPoint(lat, lng);
 
-        const incompleteResponse = {
-            hours: [
-                {
-                    windDirection: {
-                        noaa: 300,
-                    },
-                    time: '2020-04-26T00:00:00+00:00',
-                },
-            ],
-        };
+    expect(resp).toEqual(stormGlassRespNornalizedExample);
+  });
 
-        mockedAxios.get.mockResolvedValue({ data: incompleteResponse });
+  it('deve excluir dados incompletos vindo da api', async () => {
+    const lat = -33.792726;
+    const lng = 151.289824;
 
-        const stormGlass = new StormGlass(mockedAxios);
-        const resp = await stormGlass.fetchPoint(lat, lng);
+    const incompleteResponse = {
+      hours: [
+        {
+          windDirection: {
+            noaa: 300,
+          },
+          time: '2020-04-26T00:00:00+00:00',
+        },
+      ],
+    };
 
-        expect(resp).toEqual([]);
-    })
+    mockedRequest.get.mockResolvedValue({ data: incompleteResponse } as HTTPUTIL.Response);
 
-    it('return erro se a request p/ api externa falhar', async () => {
-        const lat = -33.792726;
-        const lng = 151.289824;
+    const stormGlass = new StormGlass(mockedRequest);
+    const resp = await stormGlass.fetchPoint(lat, lng);
 
-        mockedAxios.get.mockRejectedValue({ message: 'Network Error' });
+    expect(resp).toEqual([]);
+  });
 
-        const stormGlass = new StormGlass(mockedAxios);
+  it('return erro se a request p/ api externa falhar', async () => {
+    const lat = -33.792726;
+    const lng = 151.289824;
 
-        await expect(stormGlass.fetchPoint(lat, lng)).rejects.toThrow(
-            'Unexpected error when trying to communicate to StormGlass: Network Error'
-        );
-    })
+    mockedRequest.get.mockRejectedValue({ message: 'Network Error' });
 
-    it('return error da api StormGlass quando bater o limit de reqs dia', async () => {
-        const lat = -33.792726;
-        const lng = 151.289824;
+    const stormGlass = new StormGlass(mockedRequest);
 
-        class FakeAxiosError extends Error {
-            constructor(public response: object) {
-                super();
-            }
-        }
+    await expect(stormGlass.fetchPoint(lat, lng)).rejects.toThrow(
+      'Unexpected error when trying to communicate to StormGlass: Network Error'
+    );
+  });
 
-        mockedAxios.get.mockRejectedValue(
-            new FakeAxiosError({
-                status: 429,
-                data: { errors: ['Rate Limit reached'] },
-            })
-        );
+  it('return error da api StormGlass quando bater o limit de reqs dia', async () => {
+    const lat = -33.792726;
+    const lng = 151.289824;
 
-        const stormGlass = new StormGlass(mockedAxios);
+    class FakeAxiosError extends Error {
+      constructor(public response: object) {
+        super();
+      }
+    }
 
-        await expect(stormGlass.fetchPoint(lat, lng)).rejects.toThrow(
-            'Unexpected error returned by the StormGlass service: Error: {"errors":["Rate Limit reached"]} Code: 429'
-        );
+    mockedRequest.get.mockRejectedValue(
+      new FakeAxiosError({
+        status: 429,
+        data: { errors: ['Rate Limit reached'] },
+      })
+    );
+
+    MockedRequestClass.isRequestError.mockReturnValue(true);
+
+    MockedRequestClass.extractErrorData.mockReturnValue({
+      status: 429,
+      data: { errors: ['Rate Limit reached'] },
     });
-})
+
+    const stormGlass = new StormGlass(mockedRequest);
+
+    await expect(stormGlass.fetchPoint(lat, lng)).rejects.toThrow(
+      'Unexpected error returned by the StormGlass service: Error: {"errors":["Rate Limit reached"]} Code: 429'
+    );
+  });
+});
