@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "ts-node-dev --transpile-only ./src/index.ts",
+    "test:unit": "jest",
     "test:funct": "jest --projects ./test --runInBand",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix",
@@ -35,6 +36,7 @@
   },
   "dependencies": {
     "@overnightjs/core": "^1.7.6",
+    "axios": "^1.3.4",
     "express": "^4.18.2",
     "module-alias": "^2.2.2"
   }

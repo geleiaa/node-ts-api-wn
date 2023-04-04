@@ -1,4 +1,4 @@
-import './utils/module-alias';
+import '@src/utils/module-alias';
 import { Application, json } from 'express';
 import { Server } from '@overnightjs/core';
 import { ForecastController } from './controllers/forecast';
