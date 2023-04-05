@@ -6,8 +6,9 @@ import stormGlassRespNornalizedExample from '@test/fixtures/stormglass_normalize
 jest.mock('@src/utils/requests');
 
 describe('StormGlass client', () => {
-
-  const MockedRequestClass = HTTPUTIL.Request as jest.Mocked<typeof HTTPUTIL.Request>;
+  const MockedRequestClass = HTTPUTIL.Request as jest.Mocked<
+    typeof HTTPUTIL.Request
+  >;
   //const mockedAxios = axios as jest.Mocked<typeof axios>;
   const mockedRequest = new HTTPUTIL.Request() as jest.Mocked<HTTPUTIL.Request>;
 
@@ -15,7 +16,9 @@ describe('StormGlass client', () => {
     const lat = -33.792726;
     const lng = 151.289824;
 
-    mockedRequest.get.mockResolvedValue({ data: stormGlassRespExample } as HTTPUTIL.Response);
+    mockedRequest.get.mockResolvedValue({
+      data: stormGlassRespExample,
+    } as HTTPUTIL.Response);
 
     const stormGlass = new StormGlass(mockedRequest);
     const resp = await stormGlass.fetchPoint(lat, lng);
@@ -38,7 +41,9 @@ describe('StormGlass client', () => {
       ],
     };
 
-    mockedRequest.get.mockResolvedValue({ data: incompleteResponse } as HTTPUTIL.Response);
+    mockedRequest.get.mockResolvedValue({
+      data: incompleteResponse,
+    } as HTTPUTIL.Response);
 
     const stormGlass = new StormGlass(mockedRequest);
     const resp = await stormGlass.fetchPoint(lat, lng);
