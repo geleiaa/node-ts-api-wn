@@ -2,8 +2,11 @@ import { InternalError } from '@src/utils/errors/internal-error';
 //import { AxiosError, AxiosStatic } from 'axios';
 import config, { IConfig } from 'config';
 import * as HTTPUTIL from '@src/utils/requests';
-import { ForecastPoint, StormGlassForecastResponse, StormGlassPoint } from '@src/clients/interfaces/IstormGlass';
-
+import {
+  ForecastPoint,
+  StormGlassForecastResponse,
+  StormGlassPoint,
+} from '@src/clients/interfaces/IstormGlass';
 
 export class ClientReqError extends InternalError {
   constructor(message: string) {
