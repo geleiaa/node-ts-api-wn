@@ -1,12 +1,20 @@
 import { Controller, Get } from '@overnightjs/core';
+import { Beach } from '@src/models/beachModel';
+import { Forecast } from '@src/services/forecast';
 import { Request, Response } from 'express';
+
+const forecast = new Forecast();
 
 @Controller('forecast')
 export class ForecastController {
   @Get('')
-  public getForLoggedUser(req: Request, res: Response): void {
-    res.status(200).json({
-      message: 'lalau',
-    });
+  public async getForLoggedUser(req: Request, res: Response): Promise<void> {
+    try {
+      const beaches = await Beach.find({});
+      const forecastData = await forecast.processForecastForBeaches(beaches);
+      res.status(200).send(forecastData);
+    } catch (err) {
+      res.status(500).send({ error: 'Something went wrong' });
+    }
   }
 }
