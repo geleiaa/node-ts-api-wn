@@ -7,7 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "start": "ts-node-dev src/index.ts",
+    "build": "tsc",
+    "start": "npm run build && node dist/src/index.js",
+    "start:dev": "ts-node-dev --transpile-only ./src/index.ts",
     "test:unit": "jest",
     "test:funct": "jest --projects ./test --runInBand",
     "lint": "eslint . --ext .ts",

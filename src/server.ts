@@ -1,9 +1,9 @@
-import '@src/utils/module-alias';
+import './utils/module-alias'; /*<---*/
 import { Application, json } from 'express';
 import { Server } from '@overnightjs/core';
-import { ForecastController } from './controllers/forecast';
+import { ForecastController } from '@src/controllers/forecast';
 import * as database from '@src/database';
-import { BeachesController } from './controllers/beaches';
+import { BeachesController } from '@src/controllers/beaches';
 
 export class SetupServer extends Server {
   constructor(private port = 1234) {
@@ -14,6 +14,13 @@ export class SetupServer extends Server {
     this.setupExpress();
     this.setupControllers();
     await this.databaseSetup();
+  }
+
+  public start(): void {
+    this.app.listen(this.port, () => {
+      console.log('Server up in port:', this.port);
+      
+    })
   }
 
   public getApp(): Application {
