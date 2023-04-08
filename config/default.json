@@ -4,6 +4,10 @@
         "database": {
             "mongoUrl": "mongodb://localhost:27017/mongu"
         },
+        "auth": {
+            "secret": "some-key",
+            "TkexpiresIn": "1d"
+        },
         "resources": {
             "StormGlass": {
                 "apiUrl": "https://api.stormglass.io/v2",

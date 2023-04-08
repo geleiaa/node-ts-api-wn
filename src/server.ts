@@ -20,8 +20,7 @@ export class SetupServer extends Server {
   public start(): void {
     this.app.listen(this.port, () => {
       console.log('Server up in port:', this.port);
-      
-    })
+    });
   }
 
   public getApp(): Application {
@@ -36,7 +35,11 @@ export class SetupServer extends Server {
     const forecastController = new ForecastController();
     const beachesController = new BeachesController();
     const usersController = new UsersController();
-    this.addControllers([forecastController, beachesController, usersController]);
+    this.addControllers([
+      forecastController,
+      beachesController,
+      usersController,
+    ]);
   }
 
   private async databaseSetup(): Promise<void> {
