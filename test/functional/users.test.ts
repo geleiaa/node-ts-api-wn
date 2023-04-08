@@ -58,7 +58,7 @@ describe('User Funct tests', () => {
   });
 });
 
-describe.only('authenticating a user', () => {
+describe('authenticating a user', () => {
   it('deve gerar um token para validar o user', async () => {
     const newUser = {
       name: 'John Doe',

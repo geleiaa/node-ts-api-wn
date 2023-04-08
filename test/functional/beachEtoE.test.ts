@@ -1,7 +1,23 @@
 import { Beach } from '@src/models/beachModel';
+import { User } from '@src/models/usersModel';
+import AuthService from '@src/services/userAuth';
 
 describe('Beaches Models tests', () => {
-  beforeAll(async () => Beach.deleteMany({}));
+  const defaultUser = {
+    name: 'John Doe',
+    email: 'john2@mail.com',
+    password: '1234',
+  };
+
+  let token: string;
+
+  beforeEach(async () => {
+    await Beach.deleteMany({});
+    await User.deleteMany({});
+    const user = await new User(defaultUser).save();
+    token = AuthService.generateToken(user.toJSON());
+  });
+
   describe('Quando criar uma beach', () => {
     it('deve criar uma beach', async () => {
       const newBeach = {
@@ -11,7 +27,10 @@ describe('Beaches Models tests', () => {
         position: 'E',
       };
 
-      const resp = await global.testRequest.post('/beaches').send(newBeach);
+      const resp = await global.testRequest
+        .post('/beaches')
+        .set({ 'x-access-token': token })
+        .send(newBeach);
 
       expect(resp.status).toBe(201);
       expect(resp.body).toEqual(expect.objectContaining(newBeach));
@@ -25,17 +44,20 @@ describe('Beaches Models tests', () => {
         position: 'E',
       };
 
-      const resp = await global.testRequest.post('/beaches').send(newBeach);
+      const resp = await global.testRequest
+        .post('/beaches')
+        .set({ 'x-access-token': token })
+        .send(newBeach);
 
       expect(resp.status).toBe(422);
       expect(resp.body).toEqual({
         error:
-          'Beach validation failed: lat: Cast to Number failed for value "invalid_string" at path "lat"',
+          'Beach validation failed: lat: Cast to Number failed for value "invalid_string" (type string) at path "lat"',
       });
 
-      it.skip('should return 500 when there is any error other than validation error', async () => {
-        //TODO think in a way to throw a 500 FORÇAR ERRO 500!!!!!
-      });
+      // it.skip('should return 500 when there is any error other than validation error', async () => {
+      //   //TODO think in a way to throw a 500 FORÇAR ERRO 500!!!!!
+      // });
     });
   });
 });

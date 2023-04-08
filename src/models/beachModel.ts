@@ -1,5 +1,5 @@
 import { BeachPosition } from '@src/services/interfaces/Iforecast';
-import mongoose, { Document, Model } from 'mongoose';
+import mongoose, { Document, Model, Schema } from 'mongoose';
 
 export interface Beach {
   _id?: string;
@@ -7,6 +7,7 @@ export interface Beach {
   position: BeachPosition;
   lat: number;
   lng: number;
+  user: string;
 }
 
 const beachSchema = new mongoose.Schema(
@@ -15,6 +16,7 @@ const beachSchema = new mongoose.Schema(
     lng: { type: Number, required: true },
     name: { type: String, required: true },
     position: { type: String, required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   {
     toJSON: {
