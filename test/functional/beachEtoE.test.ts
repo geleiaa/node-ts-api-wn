@@ -36,7 +36,7 @@ describe('Beaches Models tests', () => {
       expect(resp.body).toEqual(expect.objectContaining(newBeach));
     });
 
-    it('return erro  de validação do mongoose', async () => {
+    it('return erro de validação do mongoose', async () => {
       const newBeach = {
         lat: 'invalid_string',
         lng: 151.289824,
@@ -51,8 +51,9 @@ describe('Beaches Models tests', () => {
 
       expect(resp.status).toBe(422);
       expect(resp.body).toEqual({
-        error:
-          'Beach validation failed: lat: Cast to Number failed for value "invalid_string" (type string) at path "lat"',
+        code: 422,
+        error: 'Unprocessable Entity',
+        message:'Beach validation failed: lat: Cast to Number failed for value "invalid_string" (type string) at path "lat"',
       });
 
       // it.skip('should return 500 when there is any error other than validation error', async () => {

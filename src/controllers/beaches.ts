@@ -1,12 +1,13 @@
 import { ClassMiddleware, Controller, Post } from '@overnightjs/core';
+import logger from '@src/logger';
 import { AuthMiddleware } from '@src/middlewares/authMid';
 import { Beach } from '@src/models/beachModel';
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
+import { ErrosController } from './erros';
 
 @Controller('beaches')
 @ClassMiddleware(AuthMiddleware)
-export class BeachesController {
+export class BeachesController extends ErrosController{
   @Post()
   public async create(req: Request, res: Response): Promise<void> {
     try {
@@ -14,12 +15,9 @@ export class BeachesController {
       const result = await beach.save();
 
       res.status(201).send(result);
-    } catch (err) {
-      if (err instanceof mongoose.Error.ValidationError) {
-        res.status(422).send({ error: err.message });
-      } else {
-        res.status(500).send({ error: 'Internal Server Error' });
-      }
+    } catch (error) {
+      logger.error(error);
+      this.sendCreateUpdateErrorResponse(res, (error as Error))
     }
   }
 }

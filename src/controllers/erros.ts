@@ -1,4 +1,6 @@
+import logger from '@src/logger';
 import { CUSTOM_VALIDATION } from '@src/models/usersModel';
+import ApiError, { APIError } from '@src/utils/errors/api-errors';
 import { Response } from 'express';
 import mongoose from 'mongoose';
 
@@ -11,9 +13,10 @@ export abstract class ErrosController {
       const clientErro = this.handleClientErrors(error);
       res
         .status(clientErro.code)
-        .send({ code: clientErro.code, error: clientErro.error });
+        .send(ApiError.format({ code: clientErro.code, message: clientErro.error }));
     } else {
-      res.status(500).send({ code: 500, error: 'Internal Server Error' });
+      logger.error(error)
+      res.status(500).send(ApiError.format({ code: 500, message: 'Internal Server Error' }));
     }
   }
 
@@ -30,5 +33,9 @@ export abstract class ErrosController {
       return { code: 409, error: error.message };
     }
     return { code: 422, error: error.message };
+  }
+
+  protected sendErrorResponse(res: Response, apiErr: APIError): Response {
+    return res.status(apiErr.code).send(ApiError.format(apiErr));
   }
 }

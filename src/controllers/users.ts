@@ -21,13 +21,13 @@ export class UsersController extends ErrosController {
   public async auth(req: Request, res: Response): Promise<Response> {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(401).send({ code: 401, error: 'User nao found!' });
+      return this.sendErrorResponse(res, { code: 401, message: 'User nao found!' })
     }
 
     if (
       !(await AuthService.comparePasswords(req.body.password, user.password))
     ) {
-      return res.status(401).send({ code: 401, error: 'Senha nao found!' });
+      return this.sendErrorResponse(res, { code: 401, message: 'Senha nao match!' })
     }
 
     const token = AuthService.generateToken(user.toJSON());

@@ -6,6 +6,7 @@ import {
   BeachForecast,
   TimeForcast,
 } from '@src/services/interfaces/Iforecast';
+import logger from '@src/logger';
 
 export class ForecastProcessingInternalError extends InternalError {
   constructor(message: string) {
@@ -20,6 +21,7 @@ export class Forecast {
     beaches: Beach[]
   ): Promise<TimeForcast[]> {
     const pointWithCurrentSource: BeachForecast[] = []; // recebe array de beaches
+    logger.info(`Preparando forecast para ${beaches.length} beaches`);
     try {
       for (const beach of beaches) {
         const points = await this.stormGlass.fetchPoint(beach.lat, beach.lng); // fetch dos dados da previsão
@@ -29,6 +31,7 @@ export class Forecast {
 
       return this.mapForecastByTime(pointWithCurrentSource);
     } catch (err) {
+      logger.error(err);
       throw new ForecastProcessingInternalError((err as Error).message);
     }
   }

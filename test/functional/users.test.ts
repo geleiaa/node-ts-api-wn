@@ -36,7 +36,8 @@ describe('User Funct tests', () => {
       expect(resp.status).toBe(422);
       expect(resp.body).toEqual({
         code: 422,
-        error: 'Users validation failed: name: Path `name` is required.',
+        error: 'Unprocessable Entity',
+        message: 'Users validation failed: name: Path `name` is required.',
       });
     });
 
@@ -52,7 +53,8 @@ describe('User Funct tests', () => {
       expect(resp.status).toBe(409);
       expect(resp.body).toEqual({
         code: 409,
-        error: 'Users validation failed: email: email ja cadastrado!!.',
+        error: 'Conflict',
+        message: 'Users validation failed: email: email ja cadastrado!!.',
       });
     });
   });

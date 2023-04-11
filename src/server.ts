@@ -5,6 +5,9 @@ import { ForecastController } from '@src/controllers/forecast';
 import { BeachesController } from '@src/controllers/beaches';
 import { UsersController } from './controllers/users';
 import * as database from '@src/database';
+import logger from './logger';
+import cors from 'cors';
+import PinoHttp from 'pino-http';
 
 export class SetupServer extends Server {
   constructor(private port = 1234) {
@@ -19,7 +22,7 @@ export class SetupServer extends Server {
 
   public start(): void {
     this.app.listen(this.port, () => {
-      console.log('Server up in port:', this.port);
+      logger.info('Server up in port:' + this.port);
     });
   }
 
@@ -29,6 +32,8 @@ export class SetupServer extends Server {
 
   private setupExpress(): void {
     this.app.use(json());
+    this.app.use(cors());
+    this.app.use(PinoHttp(logger));
   }
 
   private setupControllers(): void {
