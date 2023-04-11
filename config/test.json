@@ -9,7 +9,8 @@
             "mongoUrl": "mongodb://localhost:27017/mongu-test"
         },
         "logger": {
-            "enable": false
+            "enable": false,
+            "autoLogging": false
         }
     }
 }
