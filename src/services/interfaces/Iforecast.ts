@@ -8,6 +8,7 @@ export enum BeachPosition {
 }
 
 export interface Beach {
+  _id?: string;
   name: string;
   position: BeachPosition;
   lat: number;
@@ -15,9 +16,11 @@ export interface Beach {
   user: string;
 }
 
-export interface TimeForcast {
+export interface BeachForecast extends Omit<Beach, 'user'>, ForecastPoint {
+  rating: number;
+}
+
+export interface TimeForecast {
   time: string;
   forecast: BeachForecast[];
 }
-
-export interface BeachForecast extends Omit<Beach, 'user'>, ForecastPoint {}

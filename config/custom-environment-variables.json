@@ -9,7 +9,7 @@
             "TkexpiresIn": "JWT_TK_EXPIRES"
         },
         "resources": {
-            "stormGlass": {
+            "StormGlass": {
                 "apiUrl": "STORM_GLASS_API_URL",
                 "apiToken": "STORM_GLASS_API_TOKEN"
             }
