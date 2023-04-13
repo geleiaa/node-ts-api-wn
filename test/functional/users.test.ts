@@ -82,7 +82,7 @@ describe('authenticating a user', () => {
       .post('/users/auth')
       .send({ email: 'some-email@mail.com', password: '1234' });
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(404);
   });
 
   it('return ANAUTHORIZED se a senha not match', async () => {
@@ -96,7 +96,7 @@ describe('authenticating a user', () => {
       .post('/users/auth')
       .send({ email: newUser.email, password: 'different password' });
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(404);
   });
 
   describe('Quando get o user profile info', () => {

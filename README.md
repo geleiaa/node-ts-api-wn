@@ -1,3 +1,6 @@
+### routes  
+![routes](https://github.com/geleiaa/node-ts-api-wn/blob/main/images/routes.png)
+
 ### app workflow
 ![appwork](https://github.com/geleiaa/node-ts-api-wn/blob/main/images/simple-workflow.png)
 
