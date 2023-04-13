@@ -111,7 +111,7 @@ describe('authenticating a user', () => {
       const { body, status } = await global.testRequest
         .get('/users/me')
         .set({ 'x-access-token': token });
-        
+
       expect(status).toBe(200);
       expect(body).toMatchObject(JSON.parse(JSON.stringify({ user })));
     });

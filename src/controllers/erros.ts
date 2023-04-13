@@ -13,10 +13,14 @@ export abstract class ErrosController {
       const clientErro = this.handleClientErrors(error);
       res
         .status(clientErro.code)
-        .send(ApiError.format({ code: clientErro.code, message: clientErro.error }));
+        .send(
+          ApiError.format({ code: clientErro.code, message: clientErro.error })
+        );
     } else {
-      logger.error(error)
-      res.status(500).send(ApiError.format({ code: 500, message: 'Internal Server Error' }));
+      logger.error(error);
+      res
+        .status(500)
+        .send(ApiError.format({ code: 500, message: 'Internal Server Error' }));
     }
   }
 

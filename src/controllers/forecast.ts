@@ -1,4 +1,9 @@
-import { ClassMiddleware, Controller, Get, Middleware } from '@overnightjs/core';
+import {
+  ClassMiddleware,
+  Controller,
+  Get,
+  Middleware,
+} from '@overnightjs/core';
 import { AuthMiddleware } from '@src/middlewares/authMid';
 import { Beach } from '@src/models/beachModel';
 import { Forecast } from '@src/services/forecast';
@@ -36,7 +41,10 @@ export class ForecastController extends ErrosController {
       const forecastData = await forecast.processForecastForBeaches(beaches);
       res.status(200).send(forecastData);
     } catch (err) {
-      this.sendErrorResponse(res, { code: 500, message: 'Something went wrong' });
+      this.sendErrorResponse(res, {
+        code: 500,
+        message: 'Something went wrong',
+      });
     }
   }
 }

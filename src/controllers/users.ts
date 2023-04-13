@@ -22,13 +22,19 @@ export class UsersController extends ErrosController {
   public async auth(req: Request, res: Response): Promise<Response> {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return this.sendErrorResponse(res, { code: 404, message: 'User nao found!' })
+      return this.sendErrorResponse(res, {
+        code: 404,
+        message: 'User nao found!',
+      });
     }
 
     if (
       !(await AuthService.comparePasswords(req.body.password, user.password))
     ) {
-      return this.sendErrorResponse(res, { code: 404, message: 'Senha nao match!' })
+      return this.sendErrorResponse(res, {
+        code: 404,
+        message: 'Senha nao match!',
+      });
     }
 
     const token = AuthService.generateToken({ id: user._id });
@@ -43,7 +49,10 @@ export class UsersController extends ErrosController {
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
-      return this.sendErrorResponse(res, { code: 404, message: 'User não found!!' });
+      return this.sendErrorResponse(res, {
+        code: 404,
+        message: 'User não found!!',
+      });
     }
 
     return res.send({ user });

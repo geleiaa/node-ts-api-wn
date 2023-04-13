@@ -17,7 +17,10 @@ export class ForecastProcessingInternalError extends InternalError {
 }
 
 export class Forecast {
-  constructor(protected stormGlass = new StormGlass(), protected RatingService: typeof Rating = Rating) { }
+  constructor(
+    protected stormGlass = new StormGlass(),
+    protected RatingService: typeof Rating = Rating
+  ) {}
 
   public async processForecastForBeaches(
     beaches: Beach[]
@@ -33,7 +36,6 @@ export class Forecast {
         // Sorts the beaches by its ratings
         // https://github.com/waldemarnt/node-typescript-api/pull/32
       }));
-
     } catch (err) {
       logger.error(err);
       throw new ForecastProcessingInternalError((err as Error).message);

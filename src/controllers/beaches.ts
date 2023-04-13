@@ -7,7 +7,7 @@ import { ErrosController } from './erros';
 
 @Controller('beaches')
 @ClassMiddleware(AuthMiddleware)
-export class BeachesController extends ErrosController{
+export class BeachesController extends ErrosController {
   @Post()
   public async create(req: Request, res: Response): Promise<void> {
     try {
@@ -17,7 +17,7 @@ export class BeachesController extends ErrosController{
       res.status(201).send(result);
     } catch (error) {
       logger.error(error);
-      this.sendCreateUpdateErrorResponse(res, (error as Error))
+      this.sendCreateUpdateErrorResponse(res, error as Error);
     }
   }
 }

@@ -57,11 +57,13 @@ export class SetupServer extends Server {
 
   private async docsSetup(): Promise<void> {
     this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(apiJsonFile));
-    this.app.use(OpenApiValidator.middleware({
-      apiSpec: apiJsonFile as OpenAPIV3.Document,
-      validateRequests: false, //will be implemented in step2
-      validateResponses: false, //will be implemented in step2
-    }));
+    this.app.use(
+      OpenApiValidator.middleware({
+        apiSpec: apiJsonFile as OpenAPIV3.Document,
+        validateRequests: false, //will be implemented in step2
+        validateResponses: false, //will be implemented in step2
+      })
+    );
   }
 
   private setupErrorHandlers(): void {
