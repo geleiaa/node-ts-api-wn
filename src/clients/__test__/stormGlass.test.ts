@@ -1,15 +1,19 @@
 import { StormGlass } from '@src/clients/stormGlass';
 import * as HTTPUTIL from '@src/utils/requests';
+import CacheUtil from '@src/utils/cache';
 import stormGlassRespExample from '@test/fixtures/stormglass_resp_example.json';
 import stormGlassRespNornalizedExample from '@test/fixtures/stormglass_normalized_example.json';
 
 jest.mock('@src/utils/requests');
+jest.mock('@src/utils/cache');
 
 describe('StormGlass client', () => {
   const MockedRequestClass = HTTPUTIL.Request as jest.Mocked<
     typeof HTTPUTIL.Request
   >;
-  //const mockedAxios = axios as jest.Mocked<typeof axios>;
+
+  const mockedCache = CacheUtil as jest.Mocked<typeof CacheUtil>;
+
   const mockedRequest = new HTTPUTIL.Request() as jest.Mocked<HTTPUTIL.Request>;
 
   it('return dados normalizados da Api StormGlass', async () => {
@@ -20,7 +24,10 @@ describe('StormGlass client', () => {
       data: stormGlassRespExample,
     } as HTTPUTIL.Response);
 
-    const stormGlass = new StormGlass(mockedRequest);
+    mockedCache.get.mockReturnValue(undefined);
+
+    const stormGlass = new StormGlass(mockedRequest, mockedCache);
+
     const resp = await stormGlass.fetchPoint(lat, lng);
 
     expect(resp).toEqual(stormGlassRespNornalizedExample);
@@ -94,4 +101,21 @@ describe('StormGlass client', () => {
       'Unexpected error returned by the StormGlass service: Error: {"errors":["Rate Limit reached"]} Code: 429'
     );
   });
+
+
+  it('deve return normalized forecast points da cache e usar para return data points', async () => {
+    const lat = -33.792726;
+    const lng = 151.289824;
+
+    mockedRequest.get.mockResolvedValue({
+      data: null,
+    } as HTTPUTIL.Response);
+
+    mockedCache.get.mockReturnValue(stormGlassRespNornalizedExample);
+
+    const stormGlass = new StormGlass(mockedRequest, mockedCache);
+    const response = await stormGlass.fetchPoint(lat, lng);
+    expect(response).toEqual(stormGlassRespNornalizedExample);
+  });
+  
 });

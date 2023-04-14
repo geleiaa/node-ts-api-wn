@@ -62,6 +62,7 @@
     "module-alias": "^2.2.2",
     "moment": "^2.29.4",
     "mongoose": "^7.0.3",
+    "node-cache": "^5.1.2",
     "pino": "^8.11.0",
     "pino-http": "^8.3.3",
     "swagger-ui-express": "^4.6.2"

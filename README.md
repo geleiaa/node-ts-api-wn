@@ -16,4 +16,3 @@ devNotes: [c09p03]
 > 2 - implement dinamical rating order em services/forecast.ts
 > 3 - implement unit tests to time.ts
 > 4 - implement promise all to call ext api em services/forecast.ts
-> 5 - implement cache to client/stormGlass.ts fetchPoints()

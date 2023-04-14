@@ -1,0 +1,23 @@
+{
+    "App": {
+        "port": 1234,
+        "database": {
+            "mongoUrl": "mongodb://localhost:27017/mongu"
+        },
+        "auth": {
+            "secret": "some-key",
+            "TkexpiresIn": "1d"
+        },
+        "resources": {
+            "StormGlass": {
+                "apiUrl": "https://api.stormglass.io/v2",
+                "apiToken": "do-not-hard-code",
+                "cacheTTL": 3600
+            }
+        },
+        "logger": {
+         "enable": true,
+         "level": "info"
+        }
+    }
+}

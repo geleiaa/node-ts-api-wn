@@ -5,8 +5,9 @@ import forecastResponse from '@test/fixtures/api-forecast-resp.json';
 import nock from 'nock';
 import { User } from '@src/models/usersModel';
 import AuthService from '@src/services/userAuth';
+import CacheUtil from '@src/utils/cache';
 
-describe('Testando config do Jest', () => {
+describe('Beach forecast funct test', () => {
   const defaultUser = {
     name: 'John Doe',
     email: 'john2@mail.com',
@@ -18,7 +19,7 @@ describe('Testando config do Jest', () => {
   beforeEach(async () => {
     await Beach.deleteMany({});
     await User.deleteMany({});
-    const user = await new User(defaultUser).save();
+    const user = await new User(defaultUser);
 
     const defaultBeach = {
       lat: -33.792726,
@@ -30,6 +31,7 @@ describe('Testando config do Jest', () => {
 
     await new Beach(defaultBeach).save();
     token = AuthService.generateToken(user.toJSON());
+    CacheUtil.clearAllCache();
   });
 
   it('return a forecast', async () => {
