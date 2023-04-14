@@ -19,18 +19,18 @@ describe('Beach forecast funct test', () => {
   beforeEach(async () => {
     await Beach.deleteMany({});
     await User.deleteMany({});
-    const user = await new User(defaultUser);
+    const user = await new User(defaultUser).save();
 
     const defaultBeach = {
       lat: -33.792726,
       lng: 151.289824,
       name: 'Manly',
       position: BeachPosition.E,
-      user: user.id,
+      userId: user.id,
     };
 
     await new Beach(defaultBeach).save();
-    token = AuthService.generateToken(user.toJSON());
+    token = AuthService.generateToken(user._id);
     CacheUtil.clearAllCache();
   });
 

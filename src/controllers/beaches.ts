@@ -1,4 +1,4 @@
-import { ClassMiddleware, Controller, Post } from '@overnightjs/core';
+  import { ClassMiddleware, Controller, Post } from '@overnightjs/core';
 import logger from '@src/logger';
 import { AuthMiddleware } from '@src/middlewares/authMid';
 import { Beach } from '@src/models/beachModel';
@@ -11,7 +11,7 @@ export class BeachesController extends ErrosController {
   @Post()
   public async create(req: Request, res: Response): Promise<void> {
     try {
-      const beach = new Beach({ ...req.body, ...{ user: req.decoded?.id } });
+      const beach = new Beach({ ...req.body, ...{ userId: req.decoded?.userId } });
       const result = await beach.save();
 
       res.status(201).send(result);

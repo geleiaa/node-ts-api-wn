@@ -9,7 +9,7 @@ export function AuthMiddleware(
   try {
     const token = req.headers?.['x-access-token'];
     const decoded = AuthService.decodeToken(token as string);
-    req.decoded = decoded;
+    req.decoded = {userId: decoded.sub};
     next();
   } catch (err) {
     if (err instanceof Error) {

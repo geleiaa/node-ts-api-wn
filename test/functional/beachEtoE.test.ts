@@ -15,7 +15,7 @@ describe('Beaches Models tests', () => {
     await Beach.deleteMany({});
     await User.deleteMany({});
     const user = await new User(defaultUser).save();
-    token = AuthService.generateToken(user.toJSON());
+    token = AuthService.generateToken(user._id);
   });
 
   describe('Quando criar uma beach', () => {

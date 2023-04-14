@@ -67,14 +67,13 @@ describe('authenticating a user', () => {
       email: 'john34@mail.com',
       password: '1234',
     };
-    await new User(newUser).save();
+    const user = await new User(newUser).save();
     const response = await global.testRequest
       .post('/users/auth')
       .send({ email: newUser.email, password: newUser.password });
 
-    expect(response.body).toEqual(
-      expect.objectContaining({ token: expect.any(String) })
-    );
+    const JwtClaims = AuthService.decodeToken(response.body.token);
+    expect(JwtClaims).toMatchObject({ sub: user.id });
   });
 
   it('return UNAUTHORIZED se o email not found', async () => {
@@ -85,7 +84,7 @@ describe('authenticating a user', () => {
     expect(response.status).toBe(404);
   });
 
-  it('return ANAUTHORIZED se a senha not match', async () => {
+  it('return UNAUTHORIZED se a senha not match', async () => {
     const newUser = {
       name: 'John Doe',
       email: 'john32@mail.com',
@@ -107,7 +106,7 @@ describe('authenticating a user', () => {
         password: '1234',
       };
       const user = await new User(newUser).save();
-      const token = AuthService.generateToken({ id: user._id });
+      const token = AuthService.generateToken(user._id);
       const { body, status } = await global.testRequest
         .get('/users/me')
         .set({ 'x-access-token': token });
@@ -124,7 +123,7 @@ describe('authenticating a user', () => {
       };
       //create a new user but don't save it
       const user = new User(newUser);
-      const token = AuthService.generateToken({ id: user._id });
+      const token = AuthService.generateToken(user._id);
       const { body, status } = await global.testRequest
         .get('/users/me')
         .set({ 'x-access-token': token });

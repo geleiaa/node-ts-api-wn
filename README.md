@@ -12,7 +12,8 @@
 
 devNotes: [c09p03] 
 > 0 - verify build ... 
-> 1 - implement test funct em beaches.test.ts
-> 2 - implement dinamical rating order em services/forecast.ts
-> 3 - implement unit tests to time.ts
-> 4 - implement promise all to call ext api em services/forecast.ts
+
+> 1 - implement dinamical rating order em services/forecast.ts
+> 2 - implement unit tests to time.ts
+
+> 3 - implement promise all to call ext api em services/forecast.ts

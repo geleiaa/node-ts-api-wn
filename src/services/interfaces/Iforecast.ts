@@ -13,10 +13,10 @@ export interface Beach {
   position: BeachPosition;
   lat: number;
   lng: number;
-  user: string;
+  userId: string;
 }
 
-export interface BeachForecast extends Omit<Beach, 'user'>, ForecastPoint {
+export interface BeachForecast extends Omit<Beach, 'userId'>, ForecastPoint {
   rating: number;
 }
 

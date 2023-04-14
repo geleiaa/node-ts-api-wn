@@ -37,7 +37,7 @@ export class UsersController extends ErrosController {
       });
     }
 
-    const token = AuthService.generateToken({ id: user._id });
+    const token = AuthService.generateToken(user._id);
 
     return res.status(200).send({ token: token });
   }
@@ -45,7 +45,7 @@ export class UsersController extends ErrosController {
   @Get('me')
   @Middleware(AuthMiddleware)
   public async me(req: Request, res: Response): Promise<Response> {
-    const userId = req.decoded ? req.decoded.id : undefined;
+    const userId = req.decoded ? req.decoded.userId : undefined;
     const user = await User.findOne({ _id: userId });
 
     if (!user) {

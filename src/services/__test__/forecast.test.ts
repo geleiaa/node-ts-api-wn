@@ -43,14 +43,14 @@ describe('Forecast Service', () => {
         lng: 151.289824,
         name: 'Manly',
         position: BeachPosition.E,
-        user: 'fake-id',
+        userId: 'fake-id',
       },
       {
         lat: -33.792726,
         lng: 141.289824,
         name: 'Dee Why',
         position: BeachPosition.S,
-        user: 'fake-id',
+        userId: 'fake-id',
       },
     ];
     const expectedResponse = [
@@ -105,7 +105,7 @@ describe('Forecast Service', () => {
         lng: 151.289824,
         name: 'Manly',
         position: BeachPosition.E,
-        user: 'some-id',
+        userId: 'some-id',
       },
     ];
     const expectedResponse = [
@@ -189,7 +189,7 @@ describe('Forecast Service', () => {
         lng: 151.289824,
         name: 'Manly',
         position: BeachPosition.E,
-        user: 'some-id',
+        userId: 'some-id',
       },
     ];
 
