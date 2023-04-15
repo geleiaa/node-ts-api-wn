@@ -1,10 +1,15 @@
 import { User } from '@src/models/usersModel';
+import { UserMongoRepository } from '@src/repositories/userRepository';
 import AuthService from '@src/services/userAuth';
 
+const userRepo = new UserMongoRepository();
+
 describe('User Funct tests', () => {
+
   beforeEach(async () => {
-    await User.deleteMany({});
+    await userRepo.deleteAll();
   });
+
   describe('Create Users', () => {
     it('return user created', async () => {
       const newUser = {
@@ -67,7 +72,7 @@ describe('authenticating a user', () => {
       email: 'john34@mail.com',
       password: '1234',
     };
-    const user = await new User(newUser).save();
+    const user = await userRepo.create(newUser);
     const response = await global.testRequest
       .post('/users/auth')
       .send({ email: newUser.email, password: newUser.password });
@@ -90,7 +95,7 @@ describe('authenticating a user', () => {
       email: 'john32@mail.com',
       password: '1234',
     };
-    await new User(newUser).save();
+    await userRepo.create(newUser);
     const response = await global.testRequest
       .post('/users/auth')
       .send({ email: newUser.email, password: 'different password' });
@@ -105,8 +110,8 @@ describe('authenticating a user', () => {
         email: 'john22@mail.com',
         password: '1234',
       };
-      const user = await new User(newUser).save();
-      const token = AuthService.generateToken(user._id);
+      const user = await userRepo.create(newUser);
+      const token = AuthService.generateToken(user.id);
       const { body, status } = await global.testRequest
         .get('/users/me')
         .set({ 'x-access-token': token });
@@ -122,8 +127,8 @@ describe('authenticating a user', () => {
         password: '1234',
       };
       //create a new user but don't save it
-      const user = new User(newUser);
-      const token = AuthService.generateToken(user._id);
+      const user = await userRepo.create(newUser);
+      const token = AuthService.generateToken(user.id);
       const { body, status } = await global.testRequest
         .get('/users/me')
         .set({ 'x-access-token': token });

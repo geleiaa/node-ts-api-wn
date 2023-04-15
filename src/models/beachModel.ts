@@ -1,13 +1,17 @@
+import { BaseModel } from './baseModel';
 import { BeachPosition } from '@src/services/interfaces/Iforecast';
-import mongoose, { Document, Model, Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
-export interface Beach {
-  _id?: string;
+export interface Beach extends BaseModel {
   name: string;
   position: BeachPosition;
   lat: number;
   lng: number;
   userId: string;
+}
+
+export interface ExistingBeach extends Beach {
+  id: string;
 }
 
 const beachSchema = new mongoose.Schema(
@@ -22,7 +26,7 @@ const beachSchema = new mongoose.Schema(
     toJSON: {
       // remove dados gerados pelo mongo
       transform: (_, ret): void => {
-        ret.id = ret._id;
+        ret.id = ret._id.toString();
         delete ret._id;
         delete ret.__v;
       },
@@ -30,9 +34,5 @@ const beachSchema = new mongoose.Schema(
   }
 );
 
-interface BeachModel extends Omit<Beach, '_id'>, Document {}
 
-export const Beach: Model<BeachModel> = mongoose.model<BeachModel>(
-  'Beach',
-  beachSchema
-);
+export const Beach = mongoose.model<Beach>('Beach', beachSchema)

@@ -1,5 +1,5 @@
 import { Beach } from '@src/models/beachModel';
-import { User } from '@src/models/usersModel';
+import { UserMongoRepository } from '@src/repositories/userRepository';
 import AuthService from '@src/services/userAuth';
 
 describe('Beaches Models tests', () => {
@@ -12,10 +12,11 @@ describe('Beaches Models tests', () => {
   let token: string;
 
   beforeEach(async () => {
+    const userRepo = new UserMongoRepository();
     await Beach.deleteMany({});
-    await User.deleteMany({});
-    const user = await new User(defaultUser).save();
-    token = AuthService.generateToken(user._id);
+    await userRepo.deleteAll();
+    const user = await userRepo.create(defaultUser)
+    token = AuthService.generateToken(user.id);
   });
 
   describe('Quando criar uma beach', () => {

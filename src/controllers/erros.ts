@@ -1,5 +1,6 @@
 import logger from '@src/logger';
 import { CUSTOM_VALIDATION } from '@src/models/usersModel';
+import { DatabaseError, DatabaseUnknownClientError, DatabaseValidationError } from '@src/repositories/repository';
 import ApiError, { APIError } from '@src/utils/errors/api-errors';
 import { Response } from 'express';
 import mongoose from 'mongoose';
@@ -9,7 +10,10 @@ export abstract class ErrosController {
     res: Response,
     error: mongoose.Error.ValidationError | Error
   ): void {
-    if (error instanceof mongoose.Error.ValidationError) {
+    if (
+      error instanceof DatabaseValidationError ||
+      error instanceof DatabaseUnknownClientError
+      ) {
       const clientErro = this.handleClientErrors(error);
       res
         .status(clientErro.code)
@@ -24,19 +28,14 @@ export abstract class ErrosController {
     }
   }
 
-  private handleClientErrors(error: mongoose.Error.ValidationError): {
+  private handleClientErrors(error: DatabaseError): {
     code: number;
     error: string;
   } {
-    const duplicatedKindErrors = Object.values(error.errors).filter(
-      (err) =>
-        err.name === 'ValidatorError' &&
-        err.kind === CUSTOM_VALIDATION.DUPLICATED
-    );
-    if (duplicatedKindErrors.length) {
+    if (error instanceof DatabaseValidationError) {
       return { code: 409, error: error.message };
     }
-    return { code: 422, error: error.message };
+    return { code: 400, error: error.message };
   }
 
   protected sendErrorResponse(res: Response, apiErr: APIError): Response {

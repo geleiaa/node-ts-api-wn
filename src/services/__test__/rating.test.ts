@@ -1,9 +1,10 @@
-import { Beach } from '@src/models/beachModel';
+import { ExistingBeach } from '@src/models/beachModel';
 import { BeachPosition } from '../interfaces/Iforecast';
 import { Rating } from '../rating';
 
 describe('Rating service', () => {
-  const defaultBeach: Beach = {
+  const defaultBeach: ExistingBeach = {
+    id: 'fake-id1',
     lat: -33.792726,
     lng: 151.289824,
     name: 'Manly',

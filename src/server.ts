@@ -14,6 +14,8 @@ import swaggerUi from 'swagger-ui-express';
 import apiJsonFile from './swagger.json';
 import * as OpenApiValidator from 'express-openapi-validator';
 import { OpenAPIV3 } from 'express-openapi-validator/dist/framework/types';
+import { BeachMongoRepository } from './repositories/beachRepository';
+import { UserMongoRepository } from './repositories/userRepository';
 
 export class SetupServer extends Server {
   constructor(private port = 1234) {
@@ -45,9 +47,9 @@ export class SetupServer extends Server {
   }
 
   private setupControllers(): void {
-    const forecastController = new ForecastController();
-    const beachesController = new BeachesController();
-    const usersController = new UsersController();
+    const forecastController = new ForecastController(new BeachMongoRepository());
+    const beachesController = new BeachesController(new BeachMongoRepository());
+    const usersController = new UsersController(new UserMongoRepository());
     this.addControllers([
       forecastController,
       beachesController,

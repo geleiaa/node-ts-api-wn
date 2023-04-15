@@ -3,9 +3,9 @@ import { BeachPosition } from '@src/services/interfaces/Iforecast';
 import stormGlassRespExample from '@test/fixtures/stormglass_resp_example.json';
 import forecastResponse from '@test/fixtures/api-forecast-resp.json';
 import nock from 'nock';
-import { User } from '@src/models/usersModel';
 import AuthService from '@src/services/userAuth';
 import CacheUtil from '@src/utils/cache';
+import { UserMongoRepository } from '@src/repositories/userRepository';
 
 describe('Beach forecast funct test', () => {
   const defaultUser = {
@@ -18,8 +18,9 @@ describe('Beach forecast funct test', () => {
 
   beforeEach(async () => {
     await Beach.deleteMany({});
-    await User.deleteMany({});
-    const user = await new User(defaultUser).save();
+    const userRepo = new UserMongoRepository();
+    await userRepo.deleteAll();
+    const user = await userRepo.create(defaultUser)
 
     const defaultBeach = {
       lat: -33.792726,
@@ -30,7 +31,7 @@ describe('Beach forecast funct test', () => {
     };
 
     await new Beach(defaultBeach).save();
-    token = AuthService.generateToken(user._id);
+    token = AuthService.generateToken(user.id);
     CacheUtil.clearAllCache();
   });
 
