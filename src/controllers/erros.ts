@@ -1,5 +1,4 @@
 import logger from '@src/logger';
-import { CUSTOM_VALIDATION } from '@src/models/usersModel';
 import { DatabaseError, DatabaseUnknownClientError, DatabaseValidationError } from '@src/repositories/repository';
 import ApiError, { APIError } from '@src/utils/errors/api-errors';
 import { Response } from 'express';
@@ -24,7 +23,7 @@ export abstract class ErrosController {
       logger.error(error);
       res
         .status(500)
-        .send(ApiError.format({ code: 500, message: 'Internal Server Error' }));
+        .send(ApiError.format({ code: 500, message: 'Something went wrong!' }));
     }
   }
 

@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.path('email').validate(
   async (email: string) => {
-    const emailVerif = await mongoose.models.Users.countDocuments({ email });
+    const emailVerif = await mongoose.models.User.countDocuments({ email });
     return !emailVerif;
   },
   'email ja cadastrado!!.',

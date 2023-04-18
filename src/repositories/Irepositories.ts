@@ -1,5 +1,6 @@
-import { Beach, ExistingBeach } from "@src/models/beachModel";
+import { Beach } from "@src/models/beachModel";
 import { User } from "@src/models/usersModel";
+import { FlattenMaps } from "mongoose";
 
 export type WithId<T> = { id: string } & T;
 // export interface WithId<T> extends ExistingBeach {
@@ -9,9 +10,9 @@ export type WithId<T> = { id: string } & T;
 export type FilterOptions = Record<string, unknown>;
 
 export interface BaseRepository<T> {
-    create(data: T): Promise<WithId<T>>;
-    findOne(options: FilterOptions): Promise<WithId<T> | undefined>;
-    find(options: FilterOptions): Promise<WithId<T>[]>;
+    create(data: T): Promise<FlattenMaps<WithId<T>>>;
+    findOne(options: FilterOptions): Promise<FlattenMaps<WithId<T>> | undefined>;
+    find(options: FilterOptions): Promise<FlattenMaps<WithId<T>>[]>;
     deleteAll(): Promise<void>;
 }
 

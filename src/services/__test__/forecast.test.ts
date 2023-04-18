@@ -103,6 +103,17 @@ describe('Forecast Service', () => {
     mockedStormGlassService.fetchPoint.mockResolvedValue(
       stormGlassRespNornalizedExample
     );
+
+    const beaches: ExistingBeach[] = [
+      {
+        id: 'fake-id1',
+        lat: -33.792726,
+        lng: 151.289824,
+        name: 'Manly',
+        position: BeachPosition.E,
+        userId: 'fake-id',
+      },
+    ];
     
     const expectedResponse = [
       {
@@ -168,7 +179,7 @@ describe('Forecast Service', () => {
     ];
 
     const forecast = new Forecast(mockedStormGlassService);
-    const beachesWithRating = await forecast.processForecastForBeaches(Defaultbeaches);
+    const beachesWithRating = await forecast.processForecastForBeaches(beaches);
     expect(beachesWithRating).toEqual(expectedResponse);
   });
 

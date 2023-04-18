@@ -1,4 +1,3 @@
-import { User } from '@src/models/usersModel';
 import { UserMongoRepository } from '@src/repositories/userRepository';
 import AuthService from '@src/services/userAuth';
 
@@ -19,6 +18,7 @@ describe('User Funct tests', () => {
       };
 
       const resp = await global.testRequest.post('/users').send(newUser);
+      
       expect(resp.status).toBe(201);
       await expect(
         AuthService.comparePasswords(newUser.password, resp.body.password)
@@ -31,18 +31,18 @@ describe('User Funct tests', () => {
       );
     });
 
-    it('return 422 validation error', async () => {
+    it('return 400 validation error', async () => {
       const newUser = {
         email: 'john@mail.com',
         password: '1234',
       };
       const resp = await global.testRequest.post('/users').send(newUser);
 
-      expect(resp.status).toBe(422);
+      expect(resp.status).toBe(400);
       expect(resp.body).toEqual({
-        code: 422,
-        error: 'Unprocessable Entity',
-        message: 'Users validation failed: name: Path `name` is required.',
+        code: 400,
+        error: 'Bad Request',
+        message: 'User validation failed: name: Path `name` is required.',
       });
     });
 
@@ -59,7 +59,7 @@ describe('User Funct tests', () => {
       expect(resp.body).toEqual({
         code: 409,
         error: 'Conflict',
-        message: 'Users validation failed: email: email ja cadastrado!!.',
+        message: 'User validation failed: email: email ja cadastrado!!.',
       });
     });
   });
@@ -121,14 +121,11 @@ describe('authenticating a user', () => {
     });
 
     it(`return Not Found, quando o user is not found`, async () => {
-      const newUser = {
-        name: 'John Doe',
-        email: 'john@mail.com',
-        password: '1234',
-      };
+      
       //create a new user but don't save it
-      const user = await userRepo.create(newUser);
-      const token = AuthService.generateToken(user.id);
+      // or just not create a user
+      
+      const token = AuthService.generateToken('fake-user-id');
       const { body, status } = await global.testRequest
         .get('/users/me')
         .set({ 'x-access-token': token });

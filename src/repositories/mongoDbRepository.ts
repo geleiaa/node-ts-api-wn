@@ -8,7 +8,7 @@ import { BaseModel } from '@src/models/baseModel';
 
 export abstract class MongoDBRespository<T extends BaseModel> extends Repository<T> {
     constructor(private model: Model<T>) {
-        super()
+        super();
     }
 
     public async create(data: T) {
