@@ -1,5 +1,16 @@
-### routes  
+### routes
+
+se quiser ver a documentação com mais detalhes, importe o arquivo /src/swagger.json para o Swagger Editor https://editor.swagger.io/
+
 ![routes](https://github.com/geleiaa/node-ts-api-wn/blob/main/images/routes.png)
+
+### O que tem de Clean Architecture:
+
+...
+
+### o que tem de TDD:
+
+...
 
 ### app workflow
 ![appwork](https://github.com/geleiaa/node-ts-api-wn/blob/main/images/simple-workflow.png)
@@ -9,6 +20,9 @@
 
 #### create user
 ![createbeach](https://github.com/geleiaa/node-ts-api-wn/blob/main/images/create-user.png)
+
+
+
 
 devNotes: [c09p03] 
 > 0 - verify type error 
