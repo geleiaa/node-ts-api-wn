@@ -1,16 +1,30 @@
+#### A ideia dessa aplicação é, usando a API de meteorologia da https://stormglass.io/, fornecer informções sobre as condições do clima em determinadas praias e mostrar ao usuário qual praia está adequada para a prática do surf.
+
+* curso do Waldemar neto: https://youtube.com/playlist?list=PLz_YTBuxtxt6_Zf1h-qzNsvVt46H8ziKh
+
+* repo do curso: https://github.com/waldemarnt/node-typescript-api
+
+
 ### routes
 
 se quiser ver a documentação com mais detalhes, importe o arquivo /src/swagger.json para o Swagger Editor https://editor.swagger.io/
 
 ![routes](https://github.com/geleiaa/node-ts-api-wn/blob/main/images/routes.png)
 
+
 ### O que tem de Clean Architecture:
 
-...
+#### Na implmentação foi aplicado vários conceitos de *Clean Archtecture* como:  
+
+1. A escrita de código clara com nomes de váriaveis e funções sendo descritivos e implmentações complexas mas que não dificultam o entendimento.
+
+2. Uma divisão do código em camadas seguindo padrões de **Abstração** com **Repositories** e **Interfaces**.
+
+3. Ainda na divisão das camadas, a parte de regra de negócios é o "core" da aplicação usando padrões de domínio como **Entities** e **Models** visando facilitar o uso da aplicação.
 
 ### o que tem de TDD:
 
-...
+No decorrer do desenvolvimento foi seguido a prática do TDD. Ja tendo uma ideia de como os serviços seriam implementados e da resposta esperada, os testes foram desenvolvidos antes de escrever a funcionalidade do serviço em si, seguindo o básico do TDD...
 
 ### app workflow
 ![appwork](https://github.com/geleiaa/node-ts-api-wn/blob/main/images/simple-workflow.png)
