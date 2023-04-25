@@ -2,7 +2,7 @@
     "App": {
         "port": 1234,
         "database": {
-            "mongoUrl": "mongodb://localhost:27017/mongu"
+            "mongoUrl": "mongodb://geleia:senhageleia@localhost:27017/mongu"
         },
         "auth": {
             "secret": "some-key",

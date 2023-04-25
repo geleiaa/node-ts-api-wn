@@ -16,7 +16,7 @@ se quiser ver a documentação com mais detalhes, importe o arquivo /src/swagger
 
 #### Na implmentação foi aplicado vários conceitos de *Clean Archtecture* como:  
 
-1. A escrita de código clara com nomes de váriaveis e funções sendo descritivos e implmentações complexas mas que não dificultam o entendimento.
+1. A escrita de código clara com nomes de váriaveis e funções sendo descritivos e implementações complexas mas que não dificultam o entendimento.
 
 2. Uma divisão do código em camadas seguindo padrões de **Abstração** com **Repositories** e **Interfaces**.
 

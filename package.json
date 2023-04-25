@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && node dist/src/index.js",
+    "start": "dotenv -e .env -- node dist/src/index.js",
     "start:dev": "dotenv -e .env -- ts-node-dev --transpile-only ./src/index.ts | pino-pretty -C",
     "test": "npm run test:unit && npm run test:funct",
     "test:unit": "dotenv -e .env -- jest",
