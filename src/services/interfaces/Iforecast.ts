@@ -16,7 +16,7 @@ export interface Beach {
   userId: string;
 }
 
-export interface BeachForecast extends Omit<Beach, 'userId'>, ForecastPoint {
+export interface BeachForecast extends <Beach, 'userId'>, ForecastPoint {
   rating: number;
 }
 

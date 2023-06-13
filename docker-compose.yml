@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   mongu:
-      container-name: ${CONTAINER_NAME}-db
+      container_name: forecast-db
       restart: on-failure
       image: mongo:4.4-focal  
       ports: 
